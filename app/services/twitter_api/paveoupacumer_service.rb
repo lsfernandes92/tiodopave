@@ -2,25 +2,19 @@ require 'rest-client'
 
 module TwitterApi
   class PaveoupacumerService
-    attr_reader :post
-
-    def initialize(post)
-      @post = post
+    def self.tweet(post)
+      client.update(post)
     end
 
-    def tweet
-      client.update(@post)
-    end
-
-    def last_posted_tweet
+    def self.last_posted_tweet
       client.user_timeline('paveoupacumer', count: 1).first.full_text
     end
 
-    def last_posted_tweet_uri
+    def self.last_posted_tweet_uri
       client.user_timeline('paveoupacumer', count: 1).first.uri.to_str
     end
 
-    def client
+    def self.client
       Twitter::REST::Client.new do |config|
         config.consumer_key        = ENV["TWITTER_CONSUMER_KEY"]
         config.consumer_secret     = ENV["TWITTER_CONSUMER_SECRET"]
