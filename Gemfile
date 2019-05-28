@@ -24,6 +24,8 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 # Simple HTTP and REST client for Ruby, inspired by microframework syntax for specifying actions.
 gem 'rest-client'
+# A Ruby interface to the Twitter API. http://www.rubydoc.info/gems/twitter
+gem 'twitter', '~> 6.2'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
