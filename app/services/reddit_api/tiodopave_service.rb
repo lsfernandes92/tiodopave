@@ -25,6 +25,7 @@ module RedditApi
 
       def headers
         {
+          :user_agent => "TiodopaveClient by 1gContem",
           :accept => "application/json",
           :content_type => "application/json"
         }
