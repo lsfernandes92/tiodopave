@@ -3,7 +3,7 @@ require 'rest-client'
 module TwitterApi
   class PaveoupacumerService
     def self.tweet(post)
-      client.update(post)
+      client.update(post.strip.gsub(/[*>!><^]/, ''))
     end
 
     def self.last_posted_tweet
