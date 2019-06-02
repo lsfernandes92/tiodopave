@@ -6,11 +6,20 @@ module RedditApi
     BASE_OAUTH_URL = 'https://oauth.reddit.com'
 
     def get_newest_post(options = 'limit=1')
-      post = get("#{BASE_OAUTH_URL}/r/tiodopave/new.json?#{options}")
+      get = get("#{BASE_OAUTH_URL}/r/tiodopave/new.json?#{options}")
+
       {
-        title: post["data"]["children"][0]["data"]["title"],
-        selftext: post["data"]["children"][0]["data"]["selftext"]
+        "title" => get.dig("data", "children", 0, "data", "title"),
+        "selftext" => get.dig("data", "children", 0, "data", "selftext")
       }
+    end
+
+    def gather_access_token
+      post(
+        "#{BASE_URL}/api/v1/access_token",
+        payload,
+        headers
+      )["access_token"]
     end
 
       private
@@ -35,21 +44,18 @@ module RedditApi
         JSON.parse(response.body)
       end
 
-      def gather_access_token
-        post(
-          "#{BASE_URL}/api/v1/access_token",
-          payload,
-          headers
-        )["access_token"]
-      end
-
       def get(path)
-        response = RestClient.get(
-          path,
-          { :Authorization => "Bearer #{gather_access_token}" }
-        )
+        begin
+          response = RestClient.get(
+            path,
+            { :Authorization => "Bearer #{gather_access_token}" }
+          )
 
-        json_parse(response)
+          json_parse(response)
+        rescue RestClient::ExceptionWithResponse => e
+          puts "%%% RestClient respond with error message: #{e.message}"
+          { "message" => e.message, "error" => e.http_code }
+        end
       end
 
       def post(path, payload, headers)
