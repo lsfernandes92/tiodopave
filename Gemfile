@@ -45,6 +45,8 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # RSpec for Rails-3+ http://relishapp.com/rspec/rspec-rails
   gem 'rspec-rails', '~> 3.8'
+  # Rails >= 3 pry initializer
+  gem 'pry-rails', :group => :development
 end
 
 group :development do
