@@ -34,7 +34,15 @@ RSpec.describe RedditApi::TiodopaveService do
     end
 
     context 'when not authorized' do
-      let(:get_response) { { "title"=>nil, "selftext"=>nil } }
+      let(:get_response) {
+        { "message" => "Unauthorized", "error" => 401 }
+      }
+      let(:response) {
+        {
+          "title" => nil,
+          "selftext" => nil
+        }
+      }
 
       before do
         allow_any_instance_of(RedditApi::TiodopaveService)
@@ -43,9 +51,8 @@ RSpec.describe RedditApi::TiodopaveService do
       end
 
       it 'returns status code 401 Unauthorized' do
-        expect(subject.get_newest_post).to eq get_response
+        expect(subject.get_newest_post).to eq response
       end
-
     end
   end
 
