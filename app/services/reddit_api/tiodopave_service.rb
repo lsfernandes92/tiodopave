@@ -1,5 +1,3 @@
-require 'rest-client'
-
 module RedditApi
   class TiodopaveService
     BASE_URL = 'https://www.reddit.com'
@@ -53,7 +51,10 @@ module RedditApi
 
           json_parse(response)
         rescue RestClient::ExceptionWithResponse => e
-          puts "%%% RestClient respond with error message: #{e.message}"
+          logger.error "%%% Something went wrong in request post"
+          logger.error "%%% It fails with error: #{e.http_code}"
+          logger.error "%%% And with message: #{e.message}"
+
           { "message" => e.message, "error" => e.http_code }
         end
       end
