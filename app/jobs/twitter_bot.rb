@@ -3,11 +3,19 @@ class TwitterBot
     @post = post
   end
 
-  def already_tweet?
-    TwitterApi::PaveoupacumerService.last_posted_tweet.include?(@post)
+  def fire_tweet
+    if already_tweet?
+      Rails.logger.warn "!!! Post already tweeted..."
+      Rails.logger.warn "!!! Skiping tweeting..."
+    else
+      Api::Twitter::Paveoupacumer.tweet(@post)
+      Rails.logger.info "=== Tweet successfully!"
+    end
   end
 
-  def fire_tweet
-    TwitterApi::PaveoupacumerService.tweet(@post)
-  end
+    private
+
+    def already_tweet?
+      Api::Twitter::Paveoupacumer.last_posted_tweet.include?(@post)
+    end
 end
