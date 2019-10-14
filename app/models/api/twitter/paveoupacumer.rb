@@ -1,7 +1,7 @@
 require 'rest-client'
 
-module TwitterApi
-  class PaveoupacumerService
+module Api::Twitter
+  class Paveoupacumer
     def self.tweet(post)
       client.update(post.strip.gsub(/[*>!><^]/, ''))
     end
